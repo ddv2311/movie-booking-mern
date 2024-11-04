@@ -38,6 +38,8 @@ app.use('/cinema', cinema)
 app.use('/theater', theater)
 app.use('/movie', movie)
 app.use('/showtime', showtime)
+// const razorpayRoutes = require('./routes/razorpay');
+// app.use('/api/razorpay', razorpayRoutes);
 
 const port = process.env.PORT || 8080
 

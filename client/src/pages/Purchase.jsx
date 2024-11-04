@@ -80,3 +80,18 @@ const Purchase = () => {
 }
 
 export default Purchase
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
