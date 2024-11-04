@@ -14,7 +14,8 @@ import Showtime from './pages/Showtime'
 import Tickets from './pages/Tickets'
 import User from './pages/User'
 
-axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL || 'http://localhost:5000'
+//axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL || 'http://localhost:5000'
+axios.defaults.baseURL = "https://movie-booking-backend-0yfe.onrender.com"
 axios.defaults.withCredentials = true
 
 function App() {
