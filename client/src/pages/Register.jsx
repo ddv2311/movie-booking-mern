@@ -28,9 +28,25 @@ const Register = () => {
 			})
 			navigate('/')
 		} catch (error) {
-			console.error(error.response.data)
-			setErrorsMessage(error.response.data)
-			toast.error('Error', {
+			console.error('Registration error:', error.response?.data)
+			
+			// Extract error message safely
+			let errorMessage = 'Registration failed'
+			if (error.response?.data) {
+				if (typeof error.response.data === 'string') {
+					errorMessage = error.response.data
+				} else if (error.response.data.message) {
+					errorMessage = error.response.data.message
+				} else if (error.response.data.error) {
+					errorMessage = error.response.data.error
+				} else {
+					// For MongoDB duplicate key errors or other complex objects
+					errorMessage = 'Registration failed. Please check your input.'
+				}
+			}
+			
+			setErrorsMessage(errorMessage)
+			toast.error(errorMessage, {
 				position: 'top-center',
 				autoClose: 2000,
 				pauseOnHover: false
@@ -56,7 +72,7 @@ const Register = () => {
 						type="text"
 						autoComplete="username"
 						{...register('username', { required: true })}
-						className={inputClasses`${errors.username ? 'border-red-500' : ''}`}
+						className={`${inputClasses()} ${errors.username ? 'border-red-500' : ''}`}
 						placeholder="Username"
 					/>
 					{errors.username && <span className="text-sm text-red-500">Username is required</span>}
@@ -65,10 +81,10 @@ const Register = () => {
 						type="email"
 						autoComplete="email"
 						{...register('email', { required: true })}
-						className={inputClasses`${errors.email ? 'border-red-500' : ''}`}
+						className={`${inputClasses()} ${errors.email ? 'border-red-500' : ''}`}
 						placeholder="Email"
 					/>
-					{errors.username && <span className="text-sm text-red-500">Email is required</span>}
+					{errors.email && <span className="text-sm text-red-500">Email is required</span>}
 					<input
 						name="password"
 						type="password"
@@ -80,12 +96,12 @@ const Register = () => {
 								message: 'Password must be at least 6 characters long'
 							}
 						})}
-						className={inputClasses`${errors.password ? 'border-red-500' : ''}`}
+						className={`${inputClasses()} ${errors.password ? 'border-red-500' : ''}`}
 						placeholder="Password"
 					/>
-					{errors.password && <span className="text-sm text-red-500">{errors.password?.message}</span>}
+					{errors.password && <span className="text-sm text-red-500">{typeof errors.password?.message === 'string' ? errors.password.message : 'Password is required'}</span>}
 					<div>
-						{errorsMessage && <span className="text-sm text-red-500">{errorsMessage}</span>}
+						{errorsMessage && <span className="text-sm text-red-500">{typeof errorsMessage === 'string' ? errorsMessage : 'An error occurred'}</span>}
 						<button
 							type="submit"
 							className="mt-4 w-full rounded-md bg-blue-600 bg-gradient-to-br from-indigo-600 to-blue-500 py-2 px-4 font-medium text-white drop-shadow-md hover:bg-blue-700 hover:from-indigo-500 hover:to-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:from-slate-500 disabled:to-slate-400"

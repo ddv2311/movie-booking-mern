@@ -41,7 +41,7 @@ app.use('/showtime', showtime)
 // const razorpayRoutes = require('./routes/razorpay');
 // app.use('/api/razorpay', razorpayRoutes);
 
-//const port = process.env.PORT || 8080
-const port = "https://movie-booking-backend-0yfe.onrender.com"
+const port = process.env.PORT || 8080
+// const port = "https://movie-booking-backend-0yfe.onrender.com"
 
 app.listen(port, () => console.log(`start server in port ${port}`))

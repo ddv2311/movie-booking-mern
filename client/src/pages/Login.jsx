@@ -31,9 +31,24 @@ const Login = () => {
 			setAuth((prev) => ({ ...prev, token: response.data.token }))
 			navigate('/')
 		} catch (error) {
-			console.error(error.response.data)
-			setErrorsMessage(error.response.data)
-			toast.error('Error', {
+			console.error('Login error:', error.response?.data)
+			
+			// Extract error message safely
+			let errorMessage = 'Login failed'
+			if (error.response?.data) {
+				if (typeof error.response.data === 'string') {
+					errorMessage = error.response.data
+				} else if (error.response.data.message) {
+					errorMessage = error.response.data.message
+				} else if (error.response.data.error) {
+					errorMessage = error.response.data.error
+				} else {
+					errorMessage = 'Login failed. Please check your credentials.'
+				}
+			}
+			
+			setErrorsMessage(errorMessage)
+			toast.error(errorMessage, {
 				position: 'top-center',
 				autoClose: 2000,
 				pauseOnHover: false
@@ -59,7 +74,7 @@ const Login = () => {
 						type="text"
 						autoComplete="username"
 						{...register('username', { required: true })}
-						className={inputClasses`${errors.username ? 'border-red-500' : ''}`}
+						className={`${inputClasses()} ${errors.username ? 'border-red-500' : ''}`}
 						placeholder="Username"
 					/>
 					{errors.username && <span className="text-sm text-red-500">Username is required</span>}
@@ -68,7 +83,7 @@ const Login = () => {
 						type="password"
 						autoComplete="current-password"
 						{...register('password', { required: true })}
-						className={inputClasses`${errors.password ? 'border-red-500' : ''}`}
+						className={`${inputClasses()} ${errors.password ? 'border-red-500' : ''}`}
 						placeholder="Password"
 					/>
 					{errors.password && <span className="text-sm text-red-500">Password is required</span>}

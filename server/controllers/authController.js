@@ -17,7 +17,18 @@ exports.register = async (req, res, next) => {
 
 		sendTokenResponse(user, 200, res)
 	} catch (err) {
-		res.status(400).json({ success: false, message: err })
+		console.error('Registration error:', err)
+		let errorMessage = 'Registration failed'
+		
+		// Handle MongoDB duplicate key error
+		if (err.code === 11000) {
+			const field = Object.keys(err.keyPattern)[0]
+			errorMessage = `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`
+		} else if (err.message) {
+			errorMessage = err.message
+		}
+		
+		res.status(400).json({ success: false, message: errorMessage })
 	}
 }
 
@@ -49,7 +60,14 @@ exports.login = async (req, res, next) => {
 
 		sendTokenResponse(user, 200, res)
 	} catch (err) {
-		res.status(400).json({ success: false, message: err })
+		console.error('Login error:', err)
+		let errorMessage = 'Login failed'
+		
+		if (err.message) {
+			errorMessage = err.message
+		}
+		
+		res.status(400).json({ success: false, message: errorMessage })
 	}
 }
 
