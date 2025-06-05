@@ -58,6 +58,19 @@ const Tickets = () => {
 														{ticket.seats.map((seat) => seat.row + seat.number).join(', ')}
 													</p>
 													<p className="whitespace-nowrap">({ticket.seats.length} seats)</p>
+													{ticket.totalAmount && (
+														<p className="whitespace-nowrap text-green-600 font-semibold">
+															• {ticket.currency === 'INR' 
+																? `₹${(ticket.totalAmount / 100).toFixed(2)}`
+																: `$${(ticket.totalAmount / 100).toFixed(2)}`
+															}
+															{ticket.paymentMethod && (
+																<span className="text-xs text-gray-500 ml-1">
+																	({ticket.paymentMethod})
+																</span>
+															)}
+														</p>
+													)}
 												</div>
 											</div>
 										</div>

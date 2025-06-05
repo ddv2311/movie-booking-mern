@@ -36,7 +36,12 @@ const userSchema = new mongoose.Schema({
 					row: { type: String },
 					number: { type: Number }
 				}
-			]
+			],
+			paymentIntentId: { type: String },
+			totalAmount: { type: Number },
+			paymentDate: { type: Date, default: Date.now },
+			paymentMethod: { type: String, enum: ['stripe', 'razorpay'], default: 'razorpay' },
+			currency: { type: String, enum: ['USD', 'INR'], default: 'INR' }
 		}
 	],
 	createdAt: {

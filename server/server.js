@@ -13,6 +13,7 @@ const cinema = require('./routes/cinema')
 const theater = require('./routes/theater')
 const movie = require('./routes/movie')
 const showtime = require('./routes/showtime')
+const payment = require('./routes/payment')
 
 mongoose.set('strictQuery', false)
 mongoose
@@ -38,6 +39,7 @@ app.use('/cinema', cinema)
 app.use('/theater', theater)
 app.use('/movie', movie)
 app.use('/showtime', showtime)
+app.use('/payment', payment)
 // const razorpayRoutes = require('./routes/razorpay');
 // app.use('/api/razorpay', razorpayRoutes);
 
